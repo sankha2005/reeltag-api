@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local database (recreated from app/catalog.py on startup)
+*.db
+*.db-journal
+
+# Secrets — configure these in the Render dashboard instead
+.env
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

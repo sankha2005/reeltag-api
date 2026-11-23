@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: reeltag-api
+    runtime: python
+    plan: free
+    region: singapore
+    branch: main
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.7"
+      # Secrets: set these in the Render dashboard, never in the repo.
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: SERPAPI_KEY
+        sync: false
+      - key: CUELINKS_PUB_ID
+        sync: false
+      - key: ADMIN_API_KEY
+        generateValue: true
+      - key: AMAZON_ASSOCIATE_TAG
+        value: reeltag-21
+      # Render's disk is ephemeral; the app reseeds SQLite from app/catalog.py
+      # on every cold start, so this path just needs to be writable.
+      - key: DATABASE_PATH
+        value: ./reeltag.db
+      - key: ALLOWED_ORIGINS
+        value: https://reeltag.in,https://www.reeltag.in,https://reeltag-df7f2.web.app,http://localhost:3000
